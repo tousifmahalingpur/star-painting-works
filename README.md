@@ -2,6 +2,9 @@
 
 Production-ready, responsive single-page application for **Star Painting Works** (Terdal), built for static hosting on **GitHub Pages** with **Supabase** database, authentication, and storage integration.
 
+- **Live Website**: [https://tousifmahalingpur.github.io/star-painting-works/](https://tousifmahalingpur.github.io/star-painting-works/)
+- **GitHub Repository**: [https://github.com/tousifmahalingpur/star-painting-works](https://github.com/tousifmahalingpur/star-painting-works)
+
 ---
 
 ## Features
