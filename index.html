@@ -1,0 +1,2870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Star Painting Works | Terdal — Precision Automotive Workshop</title>
+  <meta
+    name="description"
+    content="Star Painting Works in Terdal — Precision dent fixing, custom painting, vehicle color change, detailing, motor modifications, and fabrication."
+  />
+
+  <!-- Supabase Browser SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Google Fonts: Barlow Condensed & IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* =========================================================
+       STAR PAINTING WORKS — INDUSTRIAL SKY-BLUE DESIGN SYSTEM
+       ========================================================= */
+
+    :root {
+      --black: #05070a;
+      --dark: #0a0f14;
+      --dark-2: #0f151b;
+      --panel: #121a22;
+      --panel-2: #18212a;
+      --panel-border: rgba(125, 211, 252, 0.15);
+      --steel: #46515b;
+      --steel-light: #71808e;
+      --white: #f5f7fa;
+      --muted: #94a3b8;
+
+      /* Brand Sky Blue Palette */
+      --sky: #7dd3fc;
+      --sky-strong: #38bdf8;
+      --sky-glow: rgba(56, 189, 248, 0.22);
+      --sky-dark: rgba(56, 189, 248, 0.08);
+
+      /* Semantic Accents */
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+
+      --container: 1180px;
+      --radius-sm: 2px;
+      --radius: 4px;
+      --radius-lg: 6px;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--black);
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        linear-gradient(rgba(125, 211, 252, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(125, 211, 252, 0.03) 1px, transparent 1px),
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.08), transparent 70%),
+        var(--black);
+      background-size: 36px 36px, 36px 36px, 100% 100%, 100% 100%;
+      color: var(--white);
+      font-family: "IBM Plex Mono", monospace;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle mechanical scanline overlay */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.025;
+      background-image: repeating-linear-gradient(
+        0deg,
+        #fff 0,
+        #fff 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    }
+
+    h1, h2, h3, h4, h5, .brand, .btn-condensed, .section-title, .nav-link, .stat-badge {
+      font-family: "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    img, video, iframe {
+      max-width: 100%;
+      display: block;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 36px));
+      margin-inline: auto;
+    }
+
+    /* Industrial Panel Cards */
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+
+    .panel-steel {
+      background: linear-gradient(180deg, var(--panel-2) 0%, var(--panel) 100%);
+      border: 1px solid rgba(125, 211, 252, 0.2);
+    }
+
+    /* Mechanical Hazard / Accent Striping */
+    .hazard-border {
+      position: relative;
+    }
+    .hazard-border::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--sky-strong), transparent 80%);
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    /* =========================================================
+       BUTTONS & INPUTS
+       ========================================================= */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--sky-strong);
+      color: var(--black);
+      border: 1px solid var(--sky-strong);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      box-shadow: 0 0 15px var(--sky-glow);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #bae6fd;
+      border-color: #bae6fd;
+      box-shadow: 0 0 24px rgba(56, 189, 248, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.secondary {
+      background: rgba(18, 26, 34, 0.85);
+      color: var(--sky);
+      border: 1px solid var(--sky);
+      box-shadow: none;
+    }
+
+    .btn.secondary:hover {
+      background: var(--sky-glow);
+      color: var(--white);
+      border-color: var(--sky-strong);
+      box-shadow: 0 0 16px var(--sky-glow);
+    }
+
+    .btn.danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      box-shadow: none;
+      padding: 8px 14px;
+      font-size: 13px;
+    }
+
+    .btn.danger:hover {
+      background: var(--danger);
+      color: var(--white);
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn.full {
+      width: 100%;
+    }
+
+    .btn.loading {
+      opacity: 0.75;
+      pointer-events: none;
+      cursor: wait;
+    }
+
+    .btn-icon {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    /* Form Controls */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--dark-2);
+      border: 1px solid var(--steel);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      color: var(--white);
+      font-size: 14px;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--sky-strong);
+      box-shadow: 0 0 0 2px var(--sky-glow);
+      background: #141c24;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #52606d;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* =========================================================
+       HEADER & NAVIGATION
+       ========================================================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 7, 10, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(125, 211, 252, 0.15);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 0.06em;
+    }
+
+    .brand-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      background: var(--sky-dark);
+      border: 1px solid var(--sky-strong);
+      border-radius: var(--radius-sm);
+      color: var(--sky-strong);
+      font-size: 20px;
+      box-shadow: 0 0 12px var(--sky-glow);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .brand-text span:last-child {
+      font-size: 11px;
+      font-family: "IBM Plex Mono", monospace;
+      color: var(--sky);
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      margin-top: 3px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .navigation {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-link {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav-link:hover {
+      color: var(--sky);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--sky-strong);
+      transition: width 0.2s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Language Toggle */
+    .lang-switcher {
+      display: inline-flex;
+      align-items: center;
+      background: var(--dark-2);
+      border: 1px solid var(--steel);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .lang-btn.active {
+      background: var(--sky-strong);
+      color: var(--black);
+      font-weight: 700;
+      box-shadow: 0 0 10px var(--sky-glow);
+    }
+
+    .lang-btn:hover:not(.active) {
+      color: var(--white);
+      background: rgba(125, 211, 252, 0.1);
+    }
+
+    /* Mobile Hamburger */
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--steel);
+      color: var(--sky);
+      border-radius: var(--radius-sm);
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    /* =========================================================
+       HERO SECTION
+       ========================================================= */
+
+    .hero-section {
+      padding-block: 70px 60px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-kicker {
+      display: inline-block;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      color: var(--sky);
+      background: var(--sky-dark);
+      border: 1px solid rgba(125, 211, 252, 0.25);
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 6vw, 76px);
+      font-weight: 900;
+      line-height: 0.95;
+      margin-bottom: 18px;
+      letter-spacing: 0.02em;
+    }
+
+    .text-sky {
+      color: var(--sky-strong);
+      text-shadow: 0 0 20px var(--sky-glow);
+    }
+
+    .hero-tagline {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      border-left: 3px solid var(--sky-strong);
+      padding-left: 12px;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 580px;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* Workshop Status Card */
+    .shop-status-card {
+      padding: 28px;
+      background: linear-gradient(160deg, #131d27 0%, #0c131a 100%);
+      border: 1px solid rgba(125, 211, 252, 0.25);
+    }
+
+    .shop-status-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .status-badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: var(--success);
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.08em;
+    }
+
+    .status-pulse {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--success);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .services-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .service-tag {
+      background: var(--dark-2);
+      border: 1px solid rgba(125, 211, 252, 0.1);
+      padding: 10px 12px;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .service-tag:hover {
+      border-color: var(--sky-strong);
+      background: rgba(56, 189, 248, 0.06);
+      transform: translateX(2px);
+    }
+
+    .service-bullet {
+      color: var(--sky-strong);
+      font-size: 12px;
+    }
+
+    /* =========================================================
+       SECTION COMMONS
+       ========================================================= */
+
+    .section {
+      padding-block: 70px;
+      border-top: 1px solid rgba(125, 211, 252, 0.08);
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 34px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      color: var(--sky);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4.5vw, 44px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+
+    /* =========================================================
+       BEFORE & AFTER COMPARISON SLIDER
+       ========================================================= */
+
+    .compare-container {
+      position: relative;
+      width: 100%;
+      height: 480px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid rgba(125, 211, 252, 0.25);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+      background: var(--dark-2);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .compare-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    .compare-before-layer {
+      position: absolute;
+      inset: 0;
+      width: 50%;
+      overflow: hidden;
+      border-right: 2px solid var(--sky-strong);
+      box-shadow: 2px 0 15px var(--sky-glow);
+      z-index: 2;
+    }
+
+    .compare-before-layer img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: auto;
+      min-width: 100%;
+      object-fit: cover;
+    }
+
+    .compare-tag {
+      position: absolute;
+      top: 18px;
+      background: rgba(5, 7, 10, 0.85);
+      border: 1px solid var(--steel);
+      color: var(--white);
+      padding: 4px 12px;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      border-radius: var(--radius-sm);
+      z-index: 3;
+      backdrop-filter: blur(4px);
+    }
+
+    .tag-before { left: 18px; color: #cbd5e1; }
+    .tag-after { right: 18px; color: var(--sky); border-color: var(--sky); }
+
+    .compare-divider-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      background: var(--sky-strong);
+      color: var(--black);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: ew-resize;
+      box-shadow: 0 0 20px var(--sky-strong);
+      z-index: 5;
+      pointer-events: none;
+      transition: transform 0.1s ease;
+    }
+
+    .compare-range-input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: ew-resize;
+      z-index: 10;
+      margin: 0;
+    }
+
+    /* =========================================================
+       PORTFOLIO SECTION
+       ========================================================= */
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .portfolio-card {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+    }
+
+    .portfolio-card:hover {
+      border-color: var(--sky-strong);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px var(--sky-glow);
+      transform: translateY(-2px);
+    }
+
+    .media-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: #090c10;
+      overflow: hidden;
+    }
+
+    .media-wrapper img,
+    .media-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .portfolio-card:hover .media-wrapper img {
+      transform: scale(1.04);
+    }
+
+    .media-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .media-type-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(5, 7, 10, 0.85);
+      border: 1px solid rgba(125, 211, 252, 0.4);
+      color: var(--sky);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.08em;
+      z-index: 2;
+    }
+
+    .portfolio-info {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-grow: 1;
+    }
+
+    .portfolio-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.2;
+    }
+
+    .portfolio-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: auto;
+    }
+
+    /* =========================================================
+       LIVE FEED SECTION ("TODAY'S LOG")
+       ========================================================= */
+
+    .feed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 22px;
+    }
+
+    .feed-card {
+      padding: 22px;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+
+    .feed-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .feed-vehicle {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--white);
+    }
+
+    /* Status Badges */
+    .status-badge {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+    }
+
+    .status-queue {
+      background: rgba(148, 163, 184, 0.12);
+      border: 1px solid var(--steel);
+      color: #cbd5e1;
+    }
+
+    .status-paint {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid var(--sky-strong);
+      color: var(--sky-strong);
+      box-shadow: 0 0 10px var(--sky-glow);
+    }
+
+    .status-repair {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--warning);
+      color: #fbbf24;
+    }
+
+    .status-completed {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid var(--success);
+      color: #4ade80;
+    }
+
+    .feed-desc {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .feed-media {
+      margin-top: 4px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .feed-media img,
+    .feed-media video {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+    }
+
+    .feed-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 10px;
+      margin-top: auto;
+    }
+
+    /* Empty state */
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 48px 24px;
+      text-align: center;
+      background: var(--panel);
+      border: 1px dashed var(--steel);
+      border-radius: var(--radius);
+      color: var(--muted);
+    }
+
+    .empty-state-icon {
+      font-size: 32px;
+      color: var(--sky);
+      margin-bottom: 12px;
+    }
+
+    /* =========================================================
+       CONTACT SECTION
+       ========================================================= */
+
+    .contact-panel {
+      padding: 38px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+
+    .contact-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .contact-label {
+      font-size: 12px;
+      color: var(--sky);
+      letter-spacing: 0.12em;
+      font-weight: 600;
+    }
+
+    .contact-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.4;
+    }
+
+    .contact-sub {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    footer {
+      padding-block: 40px;
+      border-top: 1px solid rgba(125, 211, 252, 0.1);
+      background: var(--black);
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* =========================================================
+       ADMIN SECTION
+       ========================================================= */
+
+    .admin-container {
+      padding-block: 50px 80px;
+    }
+
+    .admin-login-box {
+      max-width: 440px;
+      margin-inline: auto;
+      padding: 38px;
+    }
+
+    .admin-dashboard-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 34px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .admin-dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .admin-card {
+      padding: 26px;
+    }
+
+    .admin-card.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .admin-card-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--white);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-items-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .admin-item-card {
+      background: var(--dark-2);
+      border: 1px solid var(--steel);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .admin-thumb {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 2px;
+      background: #000;
+    }
+
+    .upload-progress {
+      font-size: 12px;
+      color: var(--sky);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    /* =========================================================
+       LANGUAGE FIRST-VISIT PROMPT MODAL
+       ========================================================= */
+
+    .lang-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 10, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lang-modal-box {
+      width: min(500px, 100%);
+      padding: 34px;
+      background: linear-gradient(180deg, #16202b 0%, #0d141b 100%);
+      border: 1px solid var(--sky-strong);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px var(--sky-glow);
+      text-align: center;
+    }
+
+    .lang-modal-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .lang-modal-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 26px;
+      line-height: 1.5;
+    }
+
+    .lang-modal-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .lang-choice-btn {
+      padding: 18px;
+      background: var(--dark-2);
+      border: 1px solid var(--steel);
+      border-radius: var(--radius);
+      color: var(--white);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+
+    .lang-choice-btn:hover {
+      border-color: var(--sky-strong);
+      background: rgba(56, 189, 248, 0.1);
+      box-shadow: 0 0 16px var(--sky-glow);
+      transform: translateY(-2px);
+    }
+
+    .lang-choice-primary {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--sky);
+    }
+
+    .lang-choice-native {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* =========================================================
+       TOAST NOTIFICATION
+       ========================================================= */
+
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--panel-2);
+      border: 1px solid var(--sky-strong);
+      color: var(--white);
+      padding: 14px 22px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px var(--sky-glow);
+      z-index: 1001;
+      max-width: 380px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast.error {
+      border-color: var(--danger);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(239, 68, 68, 0.3);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: currentColor;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* =========================================================
+       RESPONSIVE DESIGN BREAKPOINTS
+       ========================================================= */
+
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .admin-dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-inner {
+        height: 64px;
+      }
+      .menu-toggle {
+        display: inline-flex;
+      }
+      .navigation {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: rgba(5, 7, 10, 0.98);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(125, 211, 252, 0.2);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 24px;
+        gap: 16px;
+        display: none;
+      }
+      .navigation.mobile-open {
+        display: flex;
+      }
+      .navigation .nav-link {
+        font-size: 20px;
+      }
+      .compare-container {
+        height: 320px;
+      }
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+      .contact-panel {
+        padding: 24px;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .lang-modal-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-text span:first-child {
+        font-size: 20px;
+      }
+      .hero-section {
+        padding-block: 40px;
+      }
+      .services-list {
+        grid-template-columns: 1fr;
+      }
+      .hero-actions {
+        flex-direction: column;
+      }
+      .hero-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =======================================================
+       CUSTOMER PANEL VIEW
+       ======================================================= -->
+  <div id="customerView">
+
+    <!-- STICKY HEADER -->
+    <header>
+      <div class="container header-inner">
+
+        <!-- LOGO BRAND -->
+        <a href="#customer" class="brand" id="brandLink">
+          <span class="brand-icon">⚙</span>
+          <div class="brand-text">
+            <span id="brandName">STAR PAINTING WORKS</span>
+            <span data-i18n="header.subtitle">TERDAL // WORKSHOP</span>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <!-- NAVIGATION LINKS -->
+          <nav class="navigation" id="mainNav">
+            <a href="#work" class="nav-link" data-i18n="nav.work">Work</a>
+            <a href="#log" class="nav-link" data-i18n="nav.log">Live Log</a>
+            <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
+            <a href="#admin" class="nav-link" id="navAdminBtn" data-i18n="nav.admin">Admin</a>
+          </nav>
+
+          <!-- LANGUAGE SELECTOR -->
+          <div class="lang-switcher" aria-label="Language selector">
+            <button type="button" class="lang-btn" id="langEnBtn" onclick="selectLanguage('en')">EN</button>
+            <button type="button" class="lang-btn" id="langKnBtn" onclick="selectLanguage('kn')">ಕನ್ನಡ</button>
+          </div>
+
+          <!-- MOBILE MENU BUTTON -->
+          <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+            ☰
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <main>
+
+      <!-- =====================================================
+           HERO SECTION
+           ===================================================== -->
+      <section class="hero-section">
+        <div class="container hero-grid">
+
+          <div>
+            <div class="hero-kicker" data-i18n="hero.kicker">
+              [ VEHICLE WORKSHOP // TERDAL ]
+            </div>
+
+            <h1 class="hero-title">
+              <span data-i18n="hero.title1">BUILT TO </span>
+              <span class="text-sky" data-i18n="hero.title_hl1">RESTORE.</span><br>
+              <span data-i18n="hero.title2">MODIFIED TO </span>
+              <span class="text-sky" data-i18n="hero.title_hl2">STAND OUT.</span>
+            </h1>
+
+            <div class="hero-tagline" data-i18n="hero.tagline">
+              PRECISION DENT FIXING • CUSTOM COLORING • MOTOR MODS
+            </div>
+
+            <p class="hero-desc" data-i18n="hero.desc">
+              Specialized automotive craftsmanship in body repair, mirror-finish custom painting, complete color transformation, and custom vehicle modifications.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#contact" class="btn" data-i18n="hero.cta_job">
+                START A JOB
+              </a>
+              <a href="#work" class="btn secondary" data-i18n="hero.cta_work">
+                VIEW OUR WORK
+              </a>
+            </div>
+          </div>
+
+          <!-- WORKSHOP STATUS CARD -->
+          <div class="panel hazard-border shop-status-card">
+            <div class="shop-status-header">
+              <span class="section-label" style="margin:0;" data-i18n="status.title">
+                WORKSHOP STATUS
+              </span>
+              <div class="status-badge-live">
+                <span class="status-pulse"></span>
+                <span data-i18n="status.live">LIVE / ACTIVE</span>
+              </div>
+            </div>
+
+            <div class="services-list">
+              <div class="service-tag">
+                <span class="service-bullet">▸</span>
+                <span data-i18n="status.srv1">BODY REPAIR</span>
+              </div>
+              <div class="service-tag">
+                <span class="service-bullet">▸</span>
+                <span data-i18n="status.srv2">CUSTOM PAINT</span>
+              </div>
+              <div class="service-tag">
+                <span class="service-bullet">▸</span>
+                <span data-i18n="status.srv3">COLOR CHANGE</span>
+              </div>
+              <div class="service-tag">
+                <span class="service-bullet">▸</span>
+                <span data-i18n="status.srv4">DETAILING</span>
+              </div>
+              <div class="service-tag">
+                <span class="service-bullet">▸</span>
+                <span data-i18n="status.srv5">MOTOR MODS</span>
+              </div>
+              <div class="service-tag">
+                <span class="service-bullet">▸</span>
+                <span data-i18n="status.srv6">FABRICATION</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           BEFORE & AFTER COMPARISON SECTION
+           ===================================================== -->
+      <section id="work" class="section">
+        <div class="container">
+
+          <div class="section-header">
+            <div>
+              <div class="section-label" data-i18n="work.label">01 // PORTFOLIO</div>
+              <h2 class="section-title" data-i18n="work.title">WORK THAT TALKS</h2>
+            </div>
+            <div style="font-size: 12px; color: var(--sky);" data-i18n="work.drag">
+              DRAG THE SLIDER TO COMPARE
+            </div>
+          </div>
+
+          <!-- DRAGGABLE BEFORE/AFTER SLIDER -->
+          <div class="compare-container" id="compareSlider" role="region" aria-label="Vehicle restoration before and after comparison slider">
+            <!-- After image (Full background layer) -->
+            <img
+              src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1600&q=85"
+              alt="Vehicle after precision custom painting and repair"
+              class="compare-img"
+              id="afterImage"
+            />
+            <span class="compare-tag tag-after" data-i18n="work.after">AFTER</span>
+
+            <!-- Before image (Clipped front layer) -->
+            <div class="compare-before-layer" id="compareLayer">
+              <img
+                src="https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1600&q=85"
+                alt="Vehicle before repair"
+                id="beforeImage"
+              />
+              <span class="compare-tag tag-before" data-i18n="work.before">BEFORE</span>
+            </div>
+
+            <!-- Draggable Sky Blue Handle -->
+            <div class="compare-divider-handle" id="compareHandle">↔</div>
+
+            <!-- Accessible Range Control -->
+            <input
+              type="range"
+              class="compare-range-input"
+              id="compareRange"
+              min="0"
+              max="100"
+              value="50"
+              aria-label="Drag slider to compare vehicle before and after restoration"
+            />
+          </div>
+
+          <!-- DYNAMIC PORTFOLIO GALLERY -->
+          <div style="margin-top: 50px;">
+            <div class="portfolio-grid" id="portfolioGrid">
+              <!-- Loaded dynamically from Supabase or Fallback -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           LIVE LOG SECTION ("TODAY'S LOG")
+           ===================================================== -->
+      <section id="log" class="section">
+        <div class="container">
+
+          <div class="section-header">
+            <div>
+              <div class="section-label" data-i18n="log.label">02 // SHOP FLOOR</div>
+              <h2 class="section-title" data-i18n="log.title">TODAY'S LOG</h2>
+            </div>
+          </div>
+
+          <!-- FEED GRID -->
+          <div class="feed-grid" id="feedGrid">
+            <!-- Loaded dynamically from Supabase or Fallback -->
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           CONTACT SECTION
+           ===================================================== -->
+      <section id="contact" class="section">
+        <div class="container">
+
+          <div class="panel hazard-border contact-panel">
+            <div class="contact-grid">
+
+              <!-- LOCATION -->
+              <div class="contact-block">
+                <div class="contact-label" data-i18n="contact.location">LOCATION</div>
+                <div class="contact-value" id="cLocation">
+                  Rabkavi-Banahatti Road, Infront of SDM Trust's Danigond College of Commerce, Terdal
+                </div>
+                <a id="cMapLink" class="btn secondary btn-icon" target="_blank" rel="noopener noreferrer" href="#">
+                  <span data-i18n="contact.map">OPEN MAP ↗</span>
+                </a>
+              </div>
+
+              <!-- OWNER / HOURS -->
+              <div class="contact-block">
+                <div class="contact-label" data-i18n="contact.owner_hours">OWNER / HOURS</div>
+                <div class="contact-value" id="cOwner">Mujammil Jamadar</div>
+                <div class="contact-sub" id="cHours">09:00 AM — 08:00 PM</div>
+              </div>
+
+              <!-- PHONE / EMAIL -->
+              <div class="contact-block">
+                <div class="contact-label" data-i18n="contact.phone_email">PHONE / EMAIL</div>
+                <a class="contact-value" id="cPhone" href="tel:+918867442645">+91 88674 42645</a>
+                <a class="contact-sub" id="cEmail" href="mailto:jamadarmujammil9@gmail.com">jamadarmujammil9@gmail.com</a>
+              </div>
+
+              <!-- DIRECT WHATSAPP ACTION -->
+              <div class="contact-actions">
+                <a
+                  id="cWhatsapp"
+                  class="btn full"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://wa.me/918867442645"
+                  data-i18n="contact.whatsapp"
+                >
+                  DIRECT WHATSAPP
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container" data-i18n="footer.text">
+        STAR PAINTING WORKS • TERDAL • PRECISION VEHICLE CRAFT
+      </div>
+    </footer>
+
+  </div>
+
+
+  <!-- =======================================================
+       ADMIN PANEL VIEW
+       ======================================================= -->
+  <div id="adminView" class="hidden">
+
+    <header>
+      <div class="container header-inner">
+        <div class="brand">
+          <span class="brand-icon">⚙</span>
+          <div class="brand-text">
+            <span>STAR PAINTING WORKS</span>
+            <span style="color:var(--sky-strong);">GARAGE OPS // ADMIN DECK</span>
+          </div>
+        </div>
+
+        <button type="button" class="btn secondary" id="adminBackBtn" data-i18n="admin.back">
+          ← BACK TO CUSTOMER PANEL
+        </button>
+      </div>
+    </header>
+
+    <div class="container admin-container">
+
+      <!-- =====================================================
+           ADMIN LOGIN CARD (Shown if unauthenticated)
+           ===================================================== -->
+      <div id="adminLoginCard" class="panel hazard-border admin-login-box">
+        <div class="section-label" data-i18n="admin.security">SECURITY // ADMIN ACCESS</div>
+        <h2 class="section-title" style="margin-bottom: 24px;" data-i18n="admin.authenticate_title">
+          AUTHENTICATE
+        </h2>
+
+        <form id="adminLoginForm">
+          <div class="form-group">
+            <label for="adminEmail" data-i18n="admin.email_label">Email</label>
+            <input
+              id="adminEmail"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="admin@starpainting.com"
+              data-i18n-placeholder="admin.email_ph"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="adminPassword" data-i18n="admin.password_label">Password</label>
+            <input
+              id="adminPassword"
+              type="password"
+              required
+              minlength="6"
+              autocomplete="current-password"
+              placeholder="••••••••"
+              data-i18n-placeholder="admin.password_ph"
+            />
+          </div>
+
+          <button type="submit" class="btn full" id="adminLoginSubmit" data-i18n="admin.btn_auth">
+            AUTHENTICATE
+          </button>
+        </form>
+      </div>
+
+
+      <!-- =====================================================
+           ADMIN DASHBOARD (Shown when authenticated)
+           ===================================================== -->
+      <div id="adminDashboard" class="hidden">
+
+        <div class="admin-dashboard-header">
+          <div>
+            <div class="section-label">CONTROL DECK</div>
+            <h2 class="section-title" data-i18n="admin.dashboard_title">GARAGE OPS</h2>
+          </div>
+          <button type="button" class="btn secondary" id="adminLogoutBtn" data-i18n="admin.logout">
+            LOGOUT
+          </button>
+        </div>
+
+        <div class="admin-dashboard-grid">
+
+          <!-- 1. GARAGE PROFILE MANAGER -->
+          <div class="panel admin-card">
+            <h3 class="admin-card-title">
+              <span>⚙</span>
+              <span data-i18n="admin.profile_title">GARAGE PROFILE</span>
+            </h3>
+
+            <form id="garageProfileForm">
+              <div class="form-group">
+                <label data-i18n="admin.garage_name">Garage Name</label>
+                <input id="gName" required placeholder="Star Painting Works" />
+              </div>
+
+              <div class="form-group">
+                <label data-i18n="admin.owner_name">Owner Name</label>
+                <input id="gOwner" required placeholder="Mujammil Jamadar" />
+              </div>
+
+              <div class="form-group">
+                <label data-i18n="admin.location">Location</label>
+                <textarea id="gLocation" rows="3" required placeholder="Full garage address"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label data-i18n="admin.maps_url">Google Maps / Plus Code URL</label>
+                <input id="gMaps" type="url" required placeholder="https://maps.google.com/..." />
+              </div>
+
+              <div class="form-group">
+                <label data-i18n="admin.phone">Phone / WhatsApp</label>
+                <input id="gPhone" type="tel" required placeholder="+91 88674 42645" />
+              </div>
+
+              <div class="form-group">
+                <label data-i18n="admin.email">Email</label>
+                <input id="gEmail" type="email" required placeholder="jamadarmujammil9@gmail.com" />
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label data-i18n="admin.open_time">Opening Time</label>
+                  <input id="gOpen" type="time" required />
+                </div>
+                <div class="form-group">
+                  <label data-i18n="admin.close_time">Closing Time</label>
+                  <input id="gClose" type="time" required />
+                </div>
+              </div>
+
+              <button type="submit" class="btn full" id="saveProfileBtn" data-i18n="admin.save_profile">
+                SAVE GARAGE PROFILE
+              </button>
+            </form>
+          </div>
+
+          <!-- 2. DAILY LOG POSTER -->
+          <div class="panel admin-card">
+            <h3 class="admin-card-title">
+              <span>📋</span>
+              <span data-i18n="admin.log_poster_title">DAILY LOG POSTER</span>
+            </h3>
+
+            <form id="dailyLogForm">
+              <div class="form-group">
+                <label data-i18n="admin.log_vehicle">Vehicle</label>
+                <input id="lVehicle" required placeholder="e.g., Hyundai Creta, Royal Enfield" />
+              </div>
+
+              <div class="form-group">
+                <label data-i18n="admin.log_desc">Work Description</label>
+                <textarea id="lTask" rows="3" required placeholder="e.g., Pearl white baking in paint booth..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label data-i18n="admin.log_status">Status</label>
+                <select id="lStatus" required>
+                  <option value="IN QUEUE" data-i18n="status.queue">IN QUEUE</option>
+                  <option value="IN PAINT BOOTH" data-i18n="status.paint">IN PAINT BOOTH</option>
+                  <option value="IN REPAIR" data-i18n="status.repair">IN REPAIR</option>
+                  <option value="COMPLETED" data-i18n="status.completed">COMPLETED</option>
+                </select>
+              </div>
+
+              <!-- Media Upload / URL -->
+              <div class="form-group">
+                <label data-i18n="admin.upload_media">Attach Photo / Video (Storage or URL)</label>
+                <input id="lFile" type="file" accept="image/*,video/*" />
+                <div style="margin-top:6px; font-size:11px; color:var(--muted);" data-i18n="admin.or_media_url">
+                  OR enter image / video / YouTube URL:
+                </div>
+                <input id="lUrl" type="url" placeholder="https://..." style="margin-top:4px;" />
+              </div>
+
+              <button type="submit" class="btn full" id="publishLogBtn" data-i18n="admin.publish_log">
+                PUBLISH LIVE UPDATE
+              </button>
+            </form>
+          </div>
+
+          <!-- 3. PORTFOLIO MANAGER -->
+          <div class="panel admin-card full-width">
+            <h3 class="admin-card-title">
+              <span>🖼</span>
+              <span data-i18n="admin.portfolio_mgr_title">PORTFOLIO MANAGER</span>
+            </h3>
+
+            <form id="portfolioForm">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label data-i18n="admin.project_title">Project Title</label>
+                  <input id="pTitle" required placeholder="e.g., KTM Duke 390 Neon Cyan Respray" />
+                </div>
+
+                <div class="form-group">
+                  <label data-i18n="admin.upload_project_media">Attach Media File</label>
+                  <input id="pFile" type="file" accept="image/*,video/*" />
+                  <div style="margin-top:6px; font-size:11px; color:var(--muted);" data-i18n="admin.or_media_url">
+                    OR enter image / video / YouTube URL:
+                  </div>
+                  <input id="pUrl" type="url" placeholder="https://..." style="margin-top:4px;" />
+                </div>
+              </div>
+
+              <button type="submit" class="btn" id="addProjectBtn" data-i18n="admin.add_project">
+                ADD PROJECT
+              </button>
+            </form>
+
+            <div class="admin-items-list" id="adminPortfolioList">
+              <!-- Rendered items with delete buttons -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =======================================================
+       COMFORTABLE LANGUAGE FIRST-VISIT MODAL
+       ======================================================= -->
+  <div id="langPromptModal" class="lang-modal-overlay hidden">
+    <div class="panel hazard-border lang-modal-box">
+      <div class="section-label">LANGUAGE PREFERENCE</div>
+      <h3 class="lang-modal-title">CHOOSE YOUR LANGUAGE</h3>
+      <div style="color:var(--sky); font-weight:700; margin-bottom:8px;">
+        ನಿಮ್ಮ ಅನುಕೂಲಕರ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ
+      </div>
+      <p class="lang-modal-subtitle">
+        Select your preferred language. You can change this anytime from the top navigation bar.
+      </p>
+
+      <div class="lang-modal-buttons">
+        <button type="button" class="lang-choice-btn" onclick="selectLanguage('en', true)">
+          <span class="lang-choice-primary">English</span>
+          <span class="lang-choice-native">Workshop Standard</span>
+        </button>
+        <button type="button" class="lang-choice-btn" onclick="selectLanguage('kn', true)">
+          <span class="lang-choice-primary">ಕನ್ನಡ</span>
+          <span class="lang-choice-native">ಸ್ಥಳೀಯ ಭಾಷೆ</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+
+  <!-- =======================================================
+       APPLICATION JAVASCRIPT
+       ========================================================= -->
+  <script>
+    /* =========================================================
+       1. CONFIGURATION & STATE
+       ========================================================= */
+
+    const ENV = {
+      SUPABASE_URL: "https://iuuyhzipcocceqdjlwbf.supabase.co",
+      SUPABASE_ANON_KEY: "sb_publishable_4MV30zVNCTPvnbUG47tikg_DSGEbMbd"
+    };
+
+    const STORAGE_BUCKET = "garage-media";
+    const LANG_STORAGE_KEY = "spw_language";
+
+    const DEFAULT_GARAGE = {
+      garage_name: "Star Painting Works",
+      owner_name: "Mujammil Jamadar",
+      location: "Rabkavi-Banahatti Road, Infront of SDM Trust's Danigond College of Commerce, Terdal",
+      map_link: "https://www.google.com/maps/search/?api=1&query=F3R6%2B2PM%20SDM%20Trust%27s%20Danigond%20College%20of%20Commerce%20(PU%20%26%20B.com)%2C%20Terdal%2C%20Terdal%20Rural%2C%20Karnataka%20587315",
+      phone: "+91 88674 42645",
+      email: "jamadarmujammil9@gmail.com",
+      open_time: "09:00",
+      close_time: "20:00"
+    };
+
+    const DEFAULT_PORTFOLIO = [
+      {
+        id: "demo-1",
+        title: "Royal Enfield Bullet - Matte Black & Bronze Custom Finish",
+        media_url: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1200&q=80",
+        created_at: new Date().toISOString()
+      },
+      {
+        id: "demo-2",
+        title: "Mahindra Thar - Complete Dent Removal & High Gloss Clear Coat",
+        media_url: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80",
+        created_at: new Date().toISOString()
+      },
+      {
+        id: "demo-3",
+        title: "Hyundai Creta - 3-Stage Pearl White Color Respray",
+        media_url: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+        created_at: new Date().toISOString()
+      }
+    ];
+
+    const DEFAULT_FEED = [
+      {
+        id: "demo-feed-1",
+        vehicle_name: "Hyundai Creta",
+        status: "IN PAINT BOOTH",
+        description: "Applying 3-stage pearl white coat and infrared baking for mirror gloss.",
+        created_at: new Date().toISOString()
+      },
+      {
+        id: "demo-feed-2",
+        vehicle_name: "Royal Enfield Classic 350",
+        status: "IN REPAIR",
+        description: "Fuel tank dent pulling with magnetic suction and precision filler prep.",
+        created_at: new Date(Date.now() - 3600000).toISOString()
+      },
+      {
+        id: "demo-feed-3",
+        vehicle_name: "Mahindra Scorpio",
+        status: "COMPLETED",
+        description: "Full front bumper fabrication, scratch repair and ceramic gloss coating delivered.",
+        created_at: new Date(Date.now() - 7200000).toISOString()
+      }
+    ];
+
+    /* Initialize Supabase Client if configured */
+    const isSupabaseConfigured =
+      ENV.SUPABASE_URL &&
+      ENV.SUPABASE_URL.startsWith("https://") &&
+      !ENV.SUPABASE_URL.includes("YOUR-PROJECT") &&
+      ENV.SUPABASE_ANON_KEY &&
+      !ENV.SUPABASE_ANON_KEY.includes("PASTE_YOUR");
+
+    const db = isSupabaseConfigured
+      ? window.supabase.createClient(ENV.SUPABASE_URL, ENV.SUPABASE_ANON_KEY)
+      : null;
+
+    let currentLanguage = "en";
+    let currentUser = null;
+    let cachedPortfolio = [];
+    let cachedFeed = [];
+    let cachedSettings = { ...DEFAULT_GARAGE };
+
+    /* DOM Helpers */
+    const $ = (id) => document.getElementById(id);
+
+    function escapeHTML(str) {
+      return String(str ?? "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[c]));
+    }
+
+    function showToast(message, isError = false) {
+      const toast = $("toast");
+      if (!toast) return;
+      toast.textContent = message;
+      toast.className = `toast ${isError ? "error" : ""}`;
+      toast.classList.remove("hidden");
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.add("hidden");
+      }, 4000);
+    }
+
+    function setBtnLoading(button, isLoading, loadingText = "PROCESSING...") {
+      if (!button) return;
+      if (isLoading) {
+        button.dataset.originalText = button.innerHTML;
+        button.classList.add("loading");
+        button.disabled = true;
+        button.innerHTML = `<span class="spinner"></span> ${loadingText}`;
+      } else {
+        button.classList.remove("loading");
+        button.disabled = false;
+        button.innerHTML = button.dataset.originalText || "SUBMIT";
+      }
+    }
+
+
+    /* =========================================================
+       2. BILINGUAL TRANSLATIONS (ENGLISH & KANNADA)
+       ========================================================= */
+
+    const translations = {
+      en: {
+        "header.subtitle": "TERDAL // WORKSHOP",
+        "nav.work": "Work",
+        "nav.log": "Live Log",
+        "nav.contact": "Contact",
+        "nav.admin": "Admin",
+
+        "hero.kicker": "[ VEHICLE WORKSHOP // TERDAL ]",
+        "hero.title1": "BUILT TO ",
+        "hero.title_hl1": "RESTORE.",
+        "hero.title2": "MODIFIED TO ",
+        "hero.title_hl2": "STAND OUT.",
+        "hero.tagline": "PRECISION DENT FIXING • CUSTOM COLORING • MOTOR MODS",
+        "hero.desc": "Specialized automotive craftsmanship in body repair, mirror-finish custom painting, complete color transformation, and custom vehicle modifications.",
+        "hero.cta_job": "START A JOB",
+        "hero.cta_work": "VIEW OUR WORK",
+
+        "status.title": "WORKSHOP STATUS",
+        "status.live": "LIVE / ACTIVE",
+        "status.srv1": "BODY REPAIR",
+        "status.srv2": "CUSTOM PAINT",
+        "status.srv3": "COLOR CHANGE",
+        "status.srv4": "DETAILING",
+        "status.srv5": "MOTOR MODS",
+        "status.srv6": "FABRICATION",
+
+        "work.label": "01 // PORTFOLIO",
+        "work.title": "WORK THAT TALKS",
+        "work.drag": "DRAG THE SLIDER TO COMPARE",
+        "work.before": "BEFORE",
+        "work.after": "AFTER",
+
+        "log.label": "02 // SHOP FLOOR",
+        "log.title": "TODAY'S LOG",
+
+        "contact.location": "LOCATION",
+        "contact.map": "OPEN MAP ↗",
+        "contact.owner_hours": "OWNER / HOURS",
+        "contact.phone_email": "PHONE / EMAIL",
+        "contact.whatsapp": "DIRECT WHATSAPP",
+
+        "footer.text": "STAR PAINTING WORKS • TERDAL • PRECISION VEHICLE CRAFT",
+
+        "status.queue": "IN QUEUE",
+        "status.paint": "IN PAINT BOOTH",
+        "status.repair": "IN REPAIR",
+        "status.completed": "COMPLETED",
+
+        "admin.back": "← BACK TO CUSTOMER PANEL",
+        "admin.security": "SECURITY // ADMIN ACCESS",
+        "admin.authenticate_title": "AUTHENTICATE",
+        "admin.email_label": "Email",
+        "admin.email_ph": "admin@starpainting.com",
+        "admin.password_label": "Password",
+        "admin.password_ph": "••••••••",
+        "admin.btn_auth": "AUTHENTICATE",
+        "admin.dashboard_title": "GARAGE OPS",
+        "admin.logout": "LOGOUT",
+
+        "admin.profile_title": "GARAGE PROFILE",
+        "admin.garage_name": "Garage Name",
+        "admin.owner_name": "Owner Name",
+        "admin.location": "Location",
+        "admin.maps_url": "Google Maps / Plus Code URL",
+        "admin.phone": "Phone / WhatsApp",
+        "admin.email": "Email",
+        "admin.open_time": "Opening Time",
+        "admin.close_time": "Closing Time",
+        "admin.save_profile": "SAVE GARAGE PROFILE",
+
+        "admin.log_poster_title": "DAILY LOG POSTER",
+        "admin.log_vehicle": "Vehicle",
+        "admin.log_desc": "Work Description",
+        "admin.log_status": "Status",
+        "admin.upload_media": "Attach Photo / Video (Storage or URL)",
+        "admin.or_media_url": "OR enter image / video / YouTube URL:",
+        "admin.publish_log": "PUBLISH LIVE UPDATE",
+
+        "admin.portfolio_mgr_title": "PORTFOLIO MANAGER",
+        "admin.project_title": "Project Title",
+        "admin.upload_project_media": "Attach Media File",
+        "admin.add_project": "ADD PROJECT",
+        "admin.delete": "DELETE",
+
+        "empty.portfolio": "No portfolio projects added yet.",
+        "empty.feed": "No active shop updates logged today."
+      },
+
+      kn: {
+        "header.subtitle": "ತೇರದಾಳ // ಕಾರ್ಯಾಗಾರ",
+        "nav.work": "ಕೆಲಸಗಳು",
+        "nav.log": "ಲೈವ್ ಲಾಗ್",
+        "nav.contact": "ಸಂಪರ್ಕಿಸಿ",
+        "nav.admin": "ಅಡ್ಮಿನ್",
+
+        "hero.kicker": "[ ವಾಹನ ಕಾರ್ಯಾಗಾರ // ತೇರದಾಳ ]",
+        "hero.title1": "ಮರುರೂಪಿಸಲು ",
+        "hero.title_hl1": "ಸಿದ್ಧ.",
+        "hero.title2": "ಎದ್ದು ಕಾಣುವಂತೆ ",
+        "hero.title_hl2": "ಮಾರ್ಪಾಡು.",
+        "hero.tagline": "ನಿಖರ ಡೆಂಟ್ ರಿಪೇರಿ • ಕಸ್ಟಮ್ ಪೇಂಟಿಂಗ್ • ಮೋಟಾರ್ ಮಾರ್ಪಾಡುಗಳು",
+        "hero.desc": "ಬಾಡಿ ರಿಪೇರಿ, ಮಿರರ್-ಫಿನಿಶ್ ಕಸ್ಟಮ್ ಪೇಂಟಿಂಗ್, ವಾಹನದ ಬಣ್ಣ ಬದಲಾವಣೆ ಮತ್ತು ವಿಶೇಷ ವಾಹನ ಮಾರ್ಪಾಡುಗಳಲ್ಲಿ ಪರಿಣಿತ ಕಾರ್ಯಾಗಾರ.",
+        "hero.cta_job": "ಕೆಲಸ ಪ್ರಾರಂಭಿಸಿ",
+        "hero.cta_work": "ಕೆಲಸಗಳನ್ನು ನೋಡಿ",
+
+        "status.title": "ಕಾರ್ಯಾಗಾರದ ಸ್ಥಿತಿ",
+        "status.live": "ತೆರೆದಿದೆ / ಕಾರ್ಯನಿರತ",
+        "status.srv1": "ಬಾಡಿ ರಿಪೇರಿ",
+        "status.srv2": "ಕಸ್ಟಮ್ ಪೇಂಟ್",
+        "status.srv3": "ಬಣ್ಣ ಬದಲಾವಣೆ",
+        "status.srv4": "ಡೀಟೇಲಿಂಗ್",
+        "status.srv5": "ಮೋಟಾರ್ ಮಾರ್ಪಾಡುಗಳು",
+        "status.srv6": "ಫ್ಯಾಬ್ರಿಕೇಶನ್",
+
+        "work.label": "01 // ಪೋರ್ಟ್‌ಫೋಲಿಯೋ",
+        "work.title": "ನಮ್ಮ ವಿಶೇಷ ಕೆಲಸಗಳು",
+        "work.drag": "ಹೋಲಿಸಲು ಸ್ಲೈಡರ್ ಎಳೆಯಿರಿ",
+        "work.before": "ಮೊದಲು",
+        "work.after": "ನಂತರ",
+
+        "log.label": "02 // ಕಾರ್ಯಾಗಾರದ ಲಾಗ್",
+        "log.title": "ಇಂದಿನ ಕಾರ್ಯಾಗಾರ ಲಾಗ್",
+
+        "contact.location": "ವಿಳಾಸ",
+        "contact.map": "ಗೂಗಲ್ ಮ್ಯಾಪ್ ತೆರೆಯಿರಿ ↗",
+        "contact.owner_hours": "ಮಾಲೀಕರು / ಸಮಯ",
+        "contact.phone_email": "ದೂರವಾಣಿ / ಇಮೇಲ್",
+        "contact.whatsapp": "ನೇರ ವಾಟ್ಸಾಪ್",
+
+        "footer.text": "ಸ್ಟಾರ್ ಪೇಂಟಿಂಗ್ ವರ್ಕ್ಸ್ • ತೇರದಾಳ • ನಿಖರ ವಾಹನ ಕಲೆ",
+
+        "status.queue": "ಸರತಿಯಲ್ಲಿದೆ",
+        "status.paint": "ಪೇಂಟ್ ಬೂತ್‌ನಲ್ಲಿ",
+        "status.repair": "ರಿಪೇರಿಯಲ್ಲಿದೆ",
+        "status.completed": "ಪೂರ್ಣಗೊಂಡಿದೆ",
+
+        "admin.back": "← ಕಸ್ಟಮರ್ ಪ್ಯಾನೆಲ್‌ಗೆ ಹಿಂತಿರುಗಿ",
+        "admin.security": "ಭದ್ರತೆ // ಅಡ್ಮಿನ್ ಪ್ರವೇಶ",
+        "admin.authenticate_title": "ಲಾಗಿನ್ ಮಾಡಿ",
+        "admin.email_label": "ಇಮೇಲ್",
+        "admin.email_ph": "admin@starpainting.com",
+        "admin.password_label": "ಪಾಸ್‌ವರ್ಡ್",
+        "admin.password_ph": "••••••••",
+        "admin.btn_auth": "ಪ್ರವೇಶಿಸಿ",
+        "admin.dashboard_title": "ಕಾರ್ಯಾಗಾರ ನಿಯಂತ್ರಣ (OPS)",
+        "admin.logout": "ಲಾಗ್‌ಔಟ್",
+
+        "admin.profile_title": "ಕಾರ್ಯಾಗಾರ ವಿವರಗಳು",
+        "admin.garage_name": "ಕಾರ್ಯಾಗಾರದ ಹೆಸರು",
+        "admin.owner_name": "ಮಾಲೀಕರ ಹೆಸರು",
+        "admin.location": "ವಿಳಾಸ",
+        "admin.maps_url": "ಗೂಗಲ್ ಮ್ಯಾಪ್ ಲಿಂಕ್",
+        "admin.phone": "ದೂರವಾಣಿ / ವಾಟ್ಸಾಪ್",
+        "admin.email": "ಇಮೇಲ್",
+        "admin.open_time": "ತೆರೆಯುವ ಸಮಯ",
+        "admin.close_time": "ಮುಚ್ಚುವ ಸಮಯ",
+        "admin.save_profile": "ಪ್ರೊಫೈಲ್ ಉಳಿಸಿ",
+
+        "admin.log_poster_title": "ದೈನಂದಿನ ಲಾಗ್ ಪೋಸ್ಟ್",
+        "admin.log_vehicle": "ವಾಹನ",
+        "admin.log_desc": "ಕೆಲಸದ ವಿವರ",
+        "admin.log_status": "ಸ್ಥಿತಿ",
+        "admin.upload_media": "ಫೋಟೋ / ವಿಡಿಯೋ ಲಗತ್ತಿಸಿ (ಅಪ್‌ಲೋಡ್ ಅಥವಾ ಲಿಂಕ್)",
+        "admin.or_media_url": "ಅಥವಾ ಇಮೇಜ್ / ವಿಡಿಯೋ / ಯೂಟ್ಯೂಬ್ ಲಿಂಕ್ ಹಾಕಿ:",
+        "admin.publish_log": "ಲೈವ್ ಅಪ್ಡೇಟ್ ಪ್ರಕಟಿಸಿ",
+
+        "admin.portfolio_mgr_title": "ಪೋರ್ಟ್‌ಫೋಲಿಯೋ ನಿರ್ವಹಣೆ",
+        "admin.project_title": "ಪ್ರಾಜೆಕ್ಟ್ ಶೀರ್ಷಿಕೆ",
+        "admin.upload_project_media": "ಮಾಧ್ಯಮ ಫೈಲ್ ಲಗತ್ತಿಸಿ",
+        "admin.add_project": "ಪ್ರಾಜೆಕ್ಟ್ ಸೇರಿಸಿ",
+        "admin.delete": "ಅಳಿಸಿ",
+
+        "empty.portfolio": "ಇನ್ನೂ ಯಾವುದೇ ಪ್ರಾಜೆಕ್ಟ್‌ಗಳನ್ನು ಸೇರಿಸಲಾಗಿಲ್ಲ.",
+        "empty.feed": "ಇಂದು ಯಾವುದೇ ಹೊಸ ಅಪ್ಡೇಟ್‌ಗಳು ದಾಖಲಾಗಿಲ್ಲ."
+      }
+    };
+
+    function applyLanguage(lang) {
+      currentLanguage = translations[lang] ? lang : "en";
+      const dict = translations[currentLanguage];
+
+      // Update active state on header buttons
+      $("langEnBtn").classList.toggle("active", currentLanguage === "en");
+      $("langKnBtn").classList.toggle("active", currentLanguage === "kn");
+
+      // Update text nodes with data-i18n
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        if (dict[key]) {
+          el.textContent = dict[key];
+        }
+      });
+
+      // Update placeholders with data-i18n-placeholder
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        const key = el.getAttribute("data-i18n-placeholder");
+        if (dict[key]) {
+          el.placeholder = dict[key];
+        }
+      });
+
+      // Re-render feed and portfolio to reflect translated statuses and empty states
+      renderFeed(cachedFeed);
+      renderPortfolio(cachedPortfolio);
+    }
+
+    function selectLanguage(lang, closeModal = false) {
+      applyLanguage(lang);
+      try {
+        localStorage.setItem(LANG_STORAGE_KEY, lang);
+      } catch (e) {}
+
+      if (closeModal) {
+        $("langPromptModal").classList.add("hidden");
+      }
+    }
+
+
+    /* =========================================================
+       3. VIEW SWITCHING & SPA ROUTING
+       ========================================================= */
+
+    function showCustomer() {
+      $("customerView").classList.remove("hidden");
+      $("adminView").classList.add("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showAdmin() {
+      $("customerView").classList.add("hidden");
+      $("adminView").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (currentUser) {
+        showAdminDashboard();
+      } else {
+        showAdminLogin();
+      }
+    }
+
+    function showAdminLogin() {
+      $("adminLoginCard").classList.remove("hidden");
+      $("adminDashboard").classList.add("hidden");
+    }
+
+    function showAdminDashboard() {
+      $("adminLoginCard").classList.add("hidden");
+      $("adminDashboard").classList.remove("hidden");
+      populateAdminSettings(cachedSettings);
+      renderAdminPortfolio(cachedPortfolio);
+    }
+
+    function handleHashChange() {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === "#admin") {
+        showAdmin();
+      } else {
+        showCustomer();
+      }
+    }
+
+    window.addEventListener("hashchange", handleHashChange);
+
+
+    /* =========================================================
+       4. MEDIA HELPERS (YOUTUBE, VIMEO, VIDEO, IMAGE)
+       ========================================================= */
+
+    function getMediaKind(url) {
+      const u = String(url || "").trim().toLowerCase();
+      if (!u) return "none";
+      if (u.includes("youtube.com") || u.includes("youtu.be")) return "youtube";
+      if (u.includes("vimeo.com")) return "vimeo";
+      if (/\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(u)) return "video";
+      if (/\.(jpg|jpeg|png|gif|webp|avif|svg)(\?.*)?$/i.test(u)) return "image";
+      return "url";
+    }
+
+    function getYouTubeEmbed(url) {
+      try {
+        const u = new URL(url);
+        let videoId = "";
+        if (u.hostname.includes("youtu.be")) {
+          videoId = u.pathname.slice(1);
+        } else if (u.pathname.includes("/shorts/")) {
+          videoId = u.pathname.split("/shorts/")[1];
+        } else {
+          videoId = u.searchParams.get("v");
+        }
+        return videoId ? `https://www.youtube-nocookie.com/embed/${videoId}` : "";
+      } catch (e) {
+        return "";
+      }
+    }
+
+    function getVimeoEmbed(url) {
+      const match = String(url || "").match(/vimeo\.com\/(?:video\/)?(\d+)/i);
+      return match ? `https://player.vimeo.com/video/${match[1]}` : "";
+    }
+
+    function renderMediaElement(url, title = "Workshop Media") {
+      const kind = getMediaKind(url);
+      const safeUrl = escapeHTML(url);
+      const safeTitle = escapeHTML(title);
+
+      if (kind === "youtube") {
+        const embed = getYouTubeEmbed(url);
+        if (embed) {
+          return `
+            <div class="media-wrapper">
+              <span class="media-type-badge">▶ YOUTUBE</span>
+              <iframe src="${escapeHTML(embed)}" title="${safeTitle}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            </div>
+          `;
+        }
+      }
+
+      if (kind === "vimeo") {
+        const embed = getVimeoEmbed(url);
+        if (embed) {
+          return `
+            <div class="media-wrapper">
+              <span class="media-type-badge">▶ VIMEO</span>
+              <iframe src="${escapeHTML(embed)}" title="${safeTitle}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            </div>
+          `;
+        }
+      }
+
+      if (kind === "video") {
+        return `
+          <div class="media-wrapper">
+            <span class="media-type-badge">▶ VIDEO</span>
+            <video controls preload="metadata">
+              <source src="${safeUrl}" />
+              Your browser does not support HTML5 video.
+            </video>
+          </div>
+        `;
+      }
+
+      if (kind === "image" || url) {
+        return `
+          <div class="media-wrapper">
+            <img src="${safeUrl}" alt="${safeTitle}" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80';" />
+          </div>
+        `;
+      }
+
+      return "";
+    }
+
+
+    /* =========================================================
+       5. SUPABASE STORAGE UPLOADER
+       ========================================================= */
+
+    async function uploadMediaFile(file, folder = "feed") {
+      if (!db) {
+        throw new Error("Supabase is not configured. Please paste an image/video URL instead.");
+      }
+      if (!file) return null;
+
+      const MAX_SIZE = 50 * 1024 * 1024; // 50MB
+      if (file.size > MAX_SIZE) {
+        throw new Error("File exceeds 50MB limit. Please choose a smaller file.");
+      }
+
+      const isImage = file.type.startsWith("image/");
+      const isVideo = file.type.startsWith("video/");
+      if (!isImage && !isVideo) {
+        throw new Error("Unsupported format. Please upload an image or video file.");
+      }
+
+      const extension = file.name.includes(".") ? file.name.split(".").pop().toLowerCase() : "bin";
+      const filename = `${crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).substring(2)}.${extension}`;
+      const filePath = `${folder}/${filename}`;
+
+      const { error: uploadError } = await db.storage.from(STORAGE_BUCKET).upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: false,
+        contentType: file.type
+      });
+
+      if (uploadError) {
+        throw new Error(`Upload failed: ${uploadError.message}. You can use an image/video URL directly.`);
+      }
+
+      const { data: publicData } = db.storage.from(STORAGE_BUCKET).getPublicUrl(filePath);
+      if (!publicData || !publicData.publicUrl) {
+        throw new Error("Could not retrieve public URL for uploaded media.");
+      }
+
+      return publicData.publicUrl;
+    }
+
+
+    /* =========================================================
+       6. DATA RENDERING (CUSTOMER & ADMIN)
+       ========================================================= */
+
+    function getTranslatedStatus(status) {
+      const dict = translations[currentLanguage] || translations.en;
+      switch (String(status || "").toUpperCase()) {
+        case "IN QUEUE": return dict["status.queue"] || "IN QUEUE";
+        case "IN PAINT BOOTH": return dict["status.paint"] || "IN PAINT BOOTH";
+        case "IN REPAIR": return dict["status.repair"] || "IN REPAIR";
+        case "COMPLETED": return dict["status.completed"] || "COMPLETED";
+        default: return status;
+      }
+    }
+
+    function getStatusClass(status) {
+      switch (String(status || "").toUpperCase()) {
+        case "IN PAINT BOOTH": return "status-paint";
+        case "IN REPAIR": return "status-repair";
+        case "COMPLETED": return "status-completed";
+        default: return "status-queue";
+      }
+    }
+
+    function renderGarageSettings(data) {
+      cachedSettings = { ...DEFAULT_GARAGE, ...data };
+      $("brandName").textContent = (cachedSettings.garage_name || "STAR PAINTING WORKS").toUpperCase();
+      $("cLocation").textContent = cachedSettings.location || DEFAULT_GARAGE.location;
+      $("cOwner").textContent = cachedSettings.owner_name || DEFAULT_GARAGE.owner_name;
+      $("cHours").textContent = `${cachedSettings.open_time || "09:00"} — ${cachedSettings.close_time || "20:00"}`;
+
+      const phone = cachedSettings.phone || DEFAULT_GARAGE.phone;
+      $("cPhone").textContent = phone;
+      $("cPhone").href = `tel:${phone.replace(/\s+/g, "")}`;
+
+      const cleanPhoneDigits = phone.replace(/[^\d]/g, "");
+      $("cWhatsapp").href = `https://wa.me/${cleanPhoneDigits || "918867442645"}`;
+
+      const email = cachedSettings.email || DEFAULT_GARAGE.email;
+      $("cEmail").textContent = email;
+      $("cEmail").href = `mailto:${email}`;
+
+      $("cMapLink").href = cachedSettings.map_link || DEFAULT_GARAGE.map_link;
+    }
+
+    function renderPortfolio(items) {
+      cachedPortfolio = Array.isArray(items) ? items : [];
+      const grid = $("portfolioGrid");
+      if (!grid) return;
+
+      if (!cachedPortfolio.length) {
+        const dict = translations[currentLanguage] || translations.en;
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⚙</div>
+            <div>${escapeHTML(dict["empty.portfolio"])}</div>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = cachedPortfolio.map((item) => {
+        const mediaHtml = renderMediaElement(item.media_url, item.title);
+        const dateStr = item.created_at ? new Date(item.created_at).toLocaleDateString() : "";
+        return `
+          <article class="portfolio-card">
+            ${mediaHtml}
+            <div class="portfolio-info">
+              <h3 class="portfolio-title">${escapeHTML(item.title)}</h3>
+              <div class="portfolio-meta">${escapeHTML(dateStr)}</div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderFeed(items) {
+      cachedFeed = Array.isArray(items) ? items : [];
+      const grid = $("feedGrid");
+      if (!grid) return;
+
+      if (!cachedFeed.length) {
+        const dict = translations[currentLanguage] || translations.en;
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📋</div>
+            <div>${escapeHTML(dict["empty.feed"])}</div>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = cachedFeed.map((item) => {
+        const statusCls = getStatusClass(item.status);
+        const statusText = getTranslatedStatus(item.status);
+        const dateStr = item.created_at ? new Date(item.created_at).toLocaleString([], { dateStyle: "short", timeStyle: "short" }) : "";
+        const mediaHtml = item.media_url ? `<div class="feed-media">${renderMediaElement(item.media_url, item.vehicle_name)}</div>` : "";
+
+        return `
+          <article class="feed-card">
+            <div class="feed-header">
+              <h3 class="feed-vehicle">${escapeHTML(item.vehicle_name)}</h3>
+              <span class="status-badge ${statusCls}">${escapeHTML(statusText)}</span>
+            </div>
+            <p class="feed-desc">${escapeHTML(item.description)}</p>
+            ${mediaHtml}
+            <div class="feed-footer">
+              <span>${escapeHTML(dateStr)}</span>
+              <span>TERDAL SHOP FLOOR</span>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function populateAdminSettings(data) {
+      $("gName").value = data.garage_name || "";
+      $("gOwner").value = data.owner_name || "";
+      $("gLocation").value = data.location || "";
+      $("gMaps").value = data.map_link || "";
+      $("gPhone").value = data.phone || "";
+      $("gEmail").value = data.email || "";
+      $("gOpen").value = data.open_time || "09:00";
+      $("gClose").value = data.close_time || "20:00";
+    }
+
+    function renderAdminPortfolio(items) {
+      const container = $("adminPortfolioList");
+      if (!container) return;
+
+      if (!items.length) {
+        container.innerHTML = `<div style="grid-column:1/-1; color:var(--muted); font-size:13px;">No projects in portfolio.</div>`;
+        return;
+      }
+
+      const dict = translations[currentLanguage] || translations.en;
+      container.innerHTML = items.map((item) => {
+        const isDemo = String(item.id).startsWith("demo");
+        return `
+          <div class="admin-item-card">
+            <img class="admin-thumb" src="${escapeHTML(item.media_url)}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=400&q=80';" />
+            <div style="font-weight:700; font-size:14px; color:var(--white);">${escapeHTML(item.title)}</div>
+            <button type="button" class="btn danger" onclick="handleDeletePortfolio('${escapeHTML(item.id)}')" ${isDemo ? "title='Demo project'" : ""}>
+              ${escapeHTML(dict["admin.delete"] || "DELETE")}
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+
+    /* =========================================================
+       7. SUPABASE DATABASE CRUD OPERATIONS
+       ========================================================= */
+
+    async function loadCustomerData() {
+      // 1. Garage Profile
+      if (db) {
+        try {
+          const { data, error } = await db.from("garage_settings").select("*").limit(1).maybeSingle();
+          if (!error && data) {
+            renderGarageSettings(data);
+          } else {
+            renderGarageSettings(DEFAULT_GARAGE);
+          }
+        } catch (e) {
+          renderGarageSettings(DEFAULT_GARAGE);
+        }
+
+        // 2. Portfolio
+        try {
+          const { data, error } = await db.from("portfolio").select("*").order("created_at", { ascending: false });
+          if (!error && data && data.length > 0) {
+            renderPortfolio(data);
+          } else {
+            renderPortfolio(DEFAULT_PORTFOLIO);
+          }
+        } catch (e) {
+          renderPortfolio(DEFAULT_PORTFOLIO);
+        }
+
+        // 3. Live Feed
+        try {
+          const { data, error } = await db.from("live_feed").select("*").order("created_at", { ascending: false });
+          if (!error && data && data.length > 0) {
+            renderFeed(data);
+          } else {
+            renderFeed(DEFAULT_FEED);
+          }
+        } catch (e) {
+          renderFeed(DEFAULT_FEED);
+        }
+      } else {
+        renderGarageSettings(DEFAULT_GARAGE);
+        renderPortfolio(DEFAULT_PORTFOLIO);
+        renderFeed(DEFAULT_FEED);
+      }
+    }
+
+    async function handleSaveGarageProfile(e) {
+      e.preventDefault();
+      const btn = $("saveProfileBtn");
+      setBtnLoading(btn, true, "SAVING...");
+
+      const payload = {
+        garage_name: $("gName").value.trim(),
+        owner_name: $("gOwner").value.trim(),
+        location: $("gLocation").value.trim(),
+        map_link: $("gMaps").value.trim(),
+        phone: $("gPhone").value.trim(),
+        email: $("gEmail").value.trim(),
+        open_time: $("gOpen").value,
+        close_time: $("gClose").value,
+        updated_at: new Date().toISOString()
+      };
+
+      try {
+        if (!db) {
+          renderGarageSettings(payload);
+          showToast("Saved locally (Supabase not connected)");
+          return;
+        }
+
+        // Check if row exists
+        const { data: existing } = await db.from("garage_settings").select("id").limit(1).maybeSingle();
+        let error = null;
+
+        if (existing && existing.id) {
+          const res = await db.from("garage_settings").update(payload).eq("id", existing.id);
+          error = res.error;
+        } else {
+          const res = await db.from("garage_settings").insert([payload]);
+          error = res.error;
+        }
+
+        if (error) throw error;
+
+        renderGarageSettings(payload);
+        showToast("Garage profile saved successfully!");
+      } catch (err) {
+        showToast(err.message || "Failed to save profile.", true);
+      } finally {
+        setBtnLoading(btn, false);
+      }
+    }
+
+    async function handlePublishLog(e) {
+      e.preventDefault();
+      const btn = $("publishLogBtn");
+      setBtnLoading(btn, true, "PUBLISHING...");
+
+      try {
+        const fileInput = $("lFile");
+        let mediaUrl = $("lUrl").value.trim();
+
+        if (fileInput.files && fileInput.files[0]) {
+          showToast("Uploading media file...");
+          mediaUrl = await uploadMediaFile(fileInput.files[0], "feed");
+        }
+
+        const payload = {
+          vehicle_name: $("lVehicle").value.trim(),
+          description: $("lTask").value.trim(),
+          status: $("lStatus").value,
+          media_url: mediaUrl || null,
+          created_at: new Date().toISOString()
+        };
+
+        if (db) {
+          const { data, error } = await db.from("live_feed").insert([payload]).select();
+          if (error) throw error;
+          cachedFeed = [ ...(data || [payload]), ...cachedFeed ];
+        } else {
+          cachedFeed = [ payload, ...cachedFeed ];
+        }
+
+        renderFeed(cachedFeed);
+        $("dailyLogForm").reset();
+        showToast("Live update published to shop floor feed!");
+      } catch (err) {
+        showToast(err.message || "Unable to publish log update.", true);
+      } finally {
+        setBtnLoading(btn, false);
+      }
+    }
+
+    async function handleAddPortfolio(e) {
+      e.preventDefault();
+      const btn = $("addProjectBtn");
+      setBtnLoading(btn, true, "ADDING...");
+
+      try {
+        const fileInput = $("pFile");
+        let mediaUrl = $("pUrl").value.trim();
+
+        if (fileInput.files && fileInput.files[0]) {
+          showToast("Uploading project media...");
+          mediaUrl = await uploadMediaFile(fileInput.files[0], "portfolio");
+        }
+
+        if (!mediaUrl) {
+          throw new Error("Please upload a media file or provide a valid media URL.");
+        }
+
+        const payload = {
+          title: $("pTitle").value.trim(),
+          media_url: mediaUrl,
+          created_at: new Date().toISOString()
+        };
+
+        if (db) {
+          const { data, error } = await db.from("portfolio").insert([payload]).select();
+          if (error) throw error;
+          cachedPortfolio = [ ...(data || [payload]), ...cachedPortfolio ];
+        } else {
+          cachedPortfolio = [ payload, ...cachedPortfolio ];
+        }
+
+        renderPortfolio(cachedPortfolio);
+        renderAdminPortfolio(cachedPortfolio);
+        $("portfolioForm").reset();
+        showToast("Project added to portfolio!");
+      } catch (err) {
+        showToast(err.message || "Unable to add project.", true);
+      } finally {
+        setBtnLoading(btn, false);
+      }
+    }
+
+    async function handleDeletePortfolio(id) {
+      if (!confirm("Are you sure you want to delete this project?")) return;
+
+      try {
+        if (db && !String(id).startsWith("demo")) {
+          const { error } = await db.from("portfolio").delete().eq("id", id);
+          if (error) throw error;
+        }
+
+        cachedPortfolio = cachedPortfolio.filter((item) => String(item.id) !== String(id));
+        renderPortfolio(cachedPortfolio);
+        renderAdminPortfolio(cachedPortfolio);
+        showToast("Project deleted.");
+      } catch (err) {
+        showToast(err.message || "Failed to delete project.", true);
+      }
+    }
+
+
+    /* =========================================================
+       8. SUPABASE AUTHENTICATION
+       ========================================================= */
+
+    async function handleAdminLogin(e) {
+      e.preventDefault();
+      const btn = $("adminLoginSubmit");
+      setBtnLoading(btn, true, "AUTHENTICATING...");
+
+      const email = $("adminEmail").value.trim();
+      const password = $("adminPassword").value;
+
+      try {
+        if (!db) {
+          throw new Error("Supabase is not configured. Please check your URL and publishable key.");
+        }
+
+        const { data, error } = await db.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+
+        currentUser = data.user;
+        showToast("Authenticated successfully!");
+        showAdminDashboard();
+      } catch (err) {
+        showToast(err.message || "Authentication failed. Please check credentials.", true);
+      } finally {
+        setBtnLoading(btn, false);
+      }
+    }
+
+    async function handleAdminLogout() {
+      if (db) {
+        await db.auth.signOut();
+      }
+      currentUser = null;
+      $("adminLoginForm").reset();
+      showToast("Logged out successfully.");
+      showCustomer();
+    }
+
+    async function checkAuthSession() {
+      if (!db) return;
+      try {
+        const { data: { session } } = await db.auth.getSession();
+        if (session && session.user) {
+          currentUser = session.user;
+        }
+      } catch (e) {}
+
+      db.auth.onAuthStateChange((event, session) => {
+        if (session && session.user) {
+          currentUser = session.user;
+        } else {
+          currentUser = null;
+        }
+      });
+    }
+
+
+    /* =========================================================
+       9. BEFORE / AFTER COMPARISON SLIDER LOGIC
+       ========================================================= */
+
+    function initBeforeAfterSlider() {
+      const range = $("compareRange");
+      const layer = $("compareLayer");
+      const handle = $("compareHandle");
+      const slider = $("compareSlider");
+
+      if (!range || !layer || !handle || !slider) return;
+
+      function updateSlider(val) {
+        const pct = Math.max(0, Math.min(100, Number(val)));
+        layer.style.width = `${pct}%`;
+        handle.style.left = `${pct}%`;
+        range.value = pct;
+      }
+
+      range.addEventListener("input", (e) => {
+        updateSlider(e.target.value);
+      });
+
+      // Pointer drag support
+      let isDragging = false;
+      function onPointerMove(e) {
+        if (!isDragging) return;
+        const rect = slider.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const x = clientX - rect.left;
+        const pct = (x / rect.width) * 100;
+        updateSlider(pct);
+      }
+
+      function startDrag(e) {
+        isDragging = true;
+        onPointerMove(e);
+      }
+
+      function stopDrag() {
+        isDragging = false;
+      }
+
+      slider.addEventListener("mousedown", startDrag);
+      window.addEventListener("mousemove", onPointerMove);
+      window.addEventListener("mouseup", stopDrag);
+
+      slider.addEventListener("touchstart", startDrag, { passive: true });
+      window.addEventListener("touchmove", onPointerMove, { passive: true });
+      window.addEventListener("touchend", stopDrag);
+
+      // Keyboard accessibility
+      slider.addEventListener("keydown", (e) => {
+        let current = Number(range.value);
+        if (e.key === "ArrowLeft") {
+          updateSlider(current - 5);
+        } else if (e.key === "ArrowRight") {
+          updateSlider(current + 5);
+        }
+      });
+
+      updateSlider(50);
+    }
+
+
+    /* =========================================================
+       10. EVENT LISTENERS & INITIALIZATION
+       ========================================================= */
+
+    function setupEventListeners() {
+      // Navigation
+      $("navAdminBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.hash = "admin";
+      });
+
+      $("adminBackBtn").addEventListener("click", () => {
+        window.location.hash = "customer";
+      });
+
+      $("brandLink").addEventListener("click", () => {
+        window.location.hash = "customer";
+      });
+
+      // Mobile Menu Toggle
+      const menuToggle = $("menuToggle");
+      const mainNav = $("mainNav");
+      if (menuToggle && mainNav) {
+        menuToggle.addEventListener("click", () => {
+          mainNav.classList.toggle("mobile-open");
+        });
+
+        mainNav.querySelectorAll(".nav-link").forEach((link) => {
+          link.addEventListener("click", () => {
+            mainNav.classList.remove("mobile-open");
+          });
+        });
+      }
+
+      // Forms
+      $("adminLoginForm").addEventListener("submit", handleAdminLogin);
+      $("adminLogoutBtn").addEventListener("click", handleAdminLogout);
+      $("garageProfileForm").addEventListener("submit", handleSaveGarageProfile);
+      $("dailyLogForm").addEventListener("submit", handlePublishLog);
+      $("portfolioForm").addEventListener("submit", handleAddPortfolio);
+    }
+
+    function initLanguage() {
+      let savedLang = null;
+      try {
+        savedLang = localStorage.getItem(LANG_STORAGE_KEY);
+      } catch (e) {}
+
+      if (savedLang) {
+        applyLanguage(savedLang);
+      } else {
+        applyLanguage("en");
+        // Show first-visit language preference prompt
+        setTimeout(() => {
+          $("langPromptModal").classList.remove("hidden");
+        }, 600);
+      }
+    }
+
+    /* Boot Application */
+    document.addEventListener("DOMContentLoaded", async () => {
+      initLanguage();
+      initBeforeAfterSlider();
+      setupEventListeners();
+      await checkAuthSession();
+      await loadCustomerData();
+      handleHashChange();
+    });
+
+  </script>
+
+</body>
+</html>
